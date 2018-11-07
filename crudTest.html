@@ -1,0 +1,40 @@
+<html>
+<head>
+	<script type="text/javascript" src="js/jquery.js"></script> 
+	<script type="text/javascript" src="js/jquery-ui-1.8.6.js"></script> 
+	<script type="text/javascript" src="js/underscore.js"></script> 
+	<script type="text/javascript" src="js/CRUDGenerator.js"></script> 
+	<script>
+		window.appUrl = "http://localhost.com:8080/test";
+		var data = $("#editProductGroupPopup").serialize();
+		
+		var crud = new Crud({
+			$newModal : $("#newCity"),
+			$editModal : $("#newCity"),
+			loadAllUrl : window.appUrl+"/api/location/cities",
+			//template :  _.template($("#cityTemplate").html()),
+			$tableBody : $("#cityTableBody"),
+			addNewUrl: window.appUrl+"/api/location/city",
+			editUrl:window.appUrl+"/api/location/city",
+			deleteUrl :window.appUrl+"/api/location/city/delete",
+			$btnNew : $("#btnNewCity")
+		   });
+		   console.log(crud);
+	</script>
+</head>
+
+<body>
+	<form id="newCity" method="POST" >
+		<input type="text" name="name"/>
+		<input type="submit" value="submit"/>
+	</form>
+	
+	<form id="cityTemplate">
+	</form>
+
+	
+	
+</body>
+</html>
+
+
