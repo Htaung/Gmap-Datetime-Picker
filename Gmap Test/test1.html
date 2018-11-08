@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <style>
+       #map_canvas{
+        height: 350px;
+        width: 60%;
+       }
+    </style>
+  </head>
+  <body>
+    <h3>My Google Maps Demo</h3>
+    <input type="text" id="address" value="1 Orchid Club Road, Singapore 769162"/>
+	<input type="text" id="latitude" />
+	<input type="text" id="longitude" />
+	<input type="button" id="btnGet" value="Get lat long" onclick="getLatLong()" />
+	<br/><br/>
+	<div id="map_canvas" ></div>
+	
+    <script>
+		var geocoder;
+		var map_canvas;
+		var marker_canvas;
+      function initMap() {
+	   geocoder = new google.maps.Geocoder();
+	    var latLng = {lat:1.350000,lng:103.850000};
+		var mapOptions = {
+			center: latLng,
+			zoom: 15,
+		};
+        //map_canvas = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+		 map_canvas = new google.maps.Map(document.getElementById('map_canvas'), {
+          zoom: 4,
+          center: latLng
+        });
+		
+		marker_canvas = new google.maps.Marker({map: map_canvas, position: latLng});
+		
+		}
+		
+		function getLatLong() {
+		  var address = document.getElementById('address').value;
+		  geocoder.geocode( { 'address': address}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+			  map_canvas.setCenter(results[0].geometry.location);
+			  map_canvas.setZoom(15);
+			  //marker_canvas.setVisible(false); 
+			  marker_canvas = new google.maps.Marker({map: map_canvas, position: results[0].geometry.location});
+			  document.getElementById("latitude").value = results[0].geometry.location.lat().toFixed(6);
+			  document.getElementById("longitude").value = results[0].geometry.location.lng().toFixed(6);
+			} else {
+			  if(status == 'ZERO_RESULTS') {
+				displayFailMsg("ZERO_RESULTS Found");
+			  } else {
+				// TODO: more error handling.
+				displayFailMsg('Google Maps: ' + status);
+			  }
+			}
+		  });
+		}
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2hmb2Eo-XmZgfJbpKv-hKThIUkZi_AEw&callback=initMap">
+    </script>
+  </body>
+</html>
